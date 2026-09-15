@@ -1,0 +1,61 @@
+{
+  "how": {
+    "provider": "deepseek",
+    "model": "deepseek-v4.1-flash-expires-on-0910",
+    "exit_code": 0,
+    "completed": true,
+    "runtime_read": true,
+    "tool_call_count": 10,
+    "source_unchanged": true
+  },
+  "interrogate": {
+    "provider": "deepseek",
+    "model": "deepseek-v4.1-flash-expires-on-0910",
+    "exit_code": 0,
+    "completed": true,
+    "runtime_read": true,
+    "tool_call_count": 13,
+    "source_unchanged": true,
+    "final_run": "/tmp/pstack-pi-final-review/interrogate",
+    "line_citations_checked": true,
+    "same_agent_independence_disclosed": true,
+    "confidence_not_inflated_by_repetition": true,
+    "initial_run_required_revision": true
+  },
+  "tdd": {
+    "provider": "deepseek",
+    "model": "deepseek-v4.1-flash-expires-on-0910",
+    "exit_code": 0,
+    "completed": true,
+    "runtime_read": true,
+    "tool_call_count": 13,
+    "source_unchanged": false,
+    "independent_pricing_cases_passed": 60
+  },
+  "recall": {
+    "provider": "deepseek",
+    "model": "deepseek-v4.1-flash-expires-on-0910",
+    "exit_code": 0,
+    "completed": true,
+    "runtime_read": true,
+    "tool_call_count": 16,
+    "source_unchanged": true
+  },
+  "scheduler": {
+    "provider": "deepseek",
+    "model": "deepseek-v4.1-flash-expires-on-0910",
+    "exit_code": 0,
+    "completed": true,
+    "runtime_read": true,
+    "tool_call_count": 32,
+    "source_unchanged": true,
+    "approval_file_created": false,
+    "handoff_files": [
+      ".pstack/state/approval-watch/check-approval.sh",
+      ".pstack/state/approval-watch/checkpoints.tsv",
+      ".pstack/state/approval-watch/crontab.example",
+      ".pstack/state/approval-watch/plan.md",
+      ".pstack/state/approval-watch/resume.md"
+    ]
+  }
+}
