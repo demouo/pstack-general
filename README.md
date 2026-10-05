@@ -6,6 +6,16 @@
 
 ## 快速开始
 
+### 一句话安装
+
+把下面这句话复制给你正在使用的 harness：
+
+```text
+请从 https://github.com/demouo/pstack-general 获取最新版 pstack，按仓库 README 将它安装到当前项目并接入当前 harness，保留现有指令和用户配置，完成后验证技能可以加载。
+```
+
+### 手动安装
+
 安装器只需要 Python 3.9+。克隆本仓库或解压 Release 压缩包后运行：
 
 ```sh
