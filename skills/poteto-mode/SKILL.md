@@ -15,6 +15,8 @@ The Principles section below grounds every trigger. In your reply, name each pri
 Remaining triggers:
 
 - Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
+- Running a benchmark, measuring performance, or reporting a measured speedup/regression → **benchmark-checklist** before using the number.
+- Asked to prevent recurring agent mistakes → **correct** within the requested scope.
 - About to use the available question interface on a "which approach", "how should I", or "what should this do" fork → classify it before you ask. If the answer is a fact you could observe by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's to answer. Sketch it via the Prototype playbook (`playbooks/prototype.md`) and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve the question for a genuine product or preference call no experiment can settle.
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
 - Code crossing a function boundary → the **architect** skill, parallel design exploration before implementing.
@@ -60,6 +62,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Verification**
 
+- **Explain the Number** (**principle-explain-the-number**). Before trusting, reporting, or acting on a measured speedup, regression, throughput, latency or eval result, find its limiter and rule out skipped work, errors and noise.
 - **Prove It Works** (**principle-prove-it-works**). After a task, before declaring done. Verify against the real artifact, not a proxy or "it compiles".
 - **Fix Root Causes** (**principle-fix-root-causes**). Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work (sweeps, migrations, runs of similar edits) and how you stack commits and PRs. Break work into small units that each end in a check, verify each before the next, and order delivery so the sequence proves itself.
@@ -90,7 +93,9 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Delegation defaults.** Inherit the parent model unless the user configured a supported role override in `.pstack/models.md`. Use background execution only when supported. Pass file pointers when workers share a filesystem, otherwise provide the needed context. Read-only reviews retain read-only permissions. Follow pstack-runtime for concurrency limits and serial fallback.
 
-You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. Interrupt-chained resumes silently drop directives, so fire a fresh subagent with consolidated scope rather than trusting a "done" summary. A second opinion is the same prompt against a different model. Agreement is high-signal.
+You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. A second opinion uses the same prompt with a separate reviewer; judge its evidence and independence through pstack-runtime.
+
+**Fresh workers for new work.** When delegation is available, start a fresh worker for a fix round, retry, follow-up or next queue item with the original brief, later directives, prior report and branch. Reuse an existing worker only when required state is costly to move, such as an uncommitted checkout or a running dev server, simulator or watcher. A stop/hold order is not reuse. A PR-owner role outlives its agent. Follow the serial fallback when delegation is unavailable.
 
 ## Writing the reply
 

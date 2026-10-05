@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-05",
+  "pi_version": "0.84.1",
+  "upstream_revision": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+  "upstream_version": "0.15.9",
+  "cases": {
+    "benchmark": {
+      "provider": "deepseek",
+      "model": "deepseek-v4.1-flash-expires-on-0910",
+      "exit_code": 0,
+      "completed": true,
+      "errors": [],
+      "runtime_read": true,
+      "tool_calls": 13,
+      "fixture_sha256": {
+        "benchmark.py": "45a03808349be3fd2eb90f6f969e2531ebbd7f55d75c9de37e8d1edac1ae9f33"
+      },
+      "acceptance": "Invalid original measurement demonstrated; actual export ranking inconclusive; fixture unchanged."
+    },
+    "correct": {
+      "provider": "deepseek",
+      "model": "deepseek-v4.1-flash-expires-on-0910",
+      "exit_code": 0,
+      "completed": true,
+      "errors": [],
+      "runtime_read": true,
+      "tool_calls": 18,
+      "fixture_sha256": {
+        "cli.py": "d6804f2bc664c7f39e985a8c0ed1e7b69381d4d498a61de26af6543843a63c1d",
+        "corrections.md": "0792c88f4613c013edf4b3674b22001ca706e2450c46fa6059552fc8784a41ad",
+        "registry.py": "16e844bbc819012c467898ca6fc5fc8bd22fcf4e34c26aee92cf60811dd7e619"
+      },
+      "acceptance": "Single registry source; five tests pass; independent historical and no-op mutation checks fail; correction evidence unchanged."
+    }
+  },
+  "checks": {
+    "skill_schemas": 53,
+    "python_tests": 9,
+    "bun_tests": 52,
+    "typescript_strict": "pass",
+    "upgrade": "v0.1.0 to v0.2.0 preserves user files"
+  },
+  "scope": "Two intentional fixtures in real local pi sessions. No full multi-harness or all-skill end-to-end claim."
+}

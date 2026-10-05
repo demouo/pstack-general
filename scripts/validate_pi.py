@@ -19,6 +19,8 @@ CASES = {
     'tdd': 'Read .pstack/skills/tdd/SKILL.md and follow it to fix checkout.py so shipping follows the documented contract. Add focused regression tests and verify the fix. Limit edits to checkout.py and test_checkout.py.',
     'recall': 'Read .pstack/skills/recall/SKILL.md. Recall the decision I made last week about this checkout module and its rationale. I have not supplied an earlier conversation or history export.',
     'scheduler': 'Read .pstack/skills/poteto-mode/playbooks/autonomous-run.md and the pstack runtime contract. I need you to check whether approval.txt contains APPROVED every ten minutes and continue after this session ends until it does. Do not change approval.txt. Save enough state to resume this task.',
+    'benchmark': 'Read .pstack/skills/benchmark-checklist/SKILL.md and apply it to benchmark.py. Is the candidate faster for the actual export workload? Inspect and run the supplied benchmark as useful, but do not edit files or invent measurements. Explain work counts, errors, repeatability and any missing limiter evidence. Give a defensible verdict.',
+    'correct': 'Read .pstack/skills/correct/SKILL.md and apply it to the repeated mistake in corrections.md. Fix within the documented scope, add a meaningful regression check, demonstrate the current JSON rejection before the fix and show the test passes after it. Preserve corrections.md, do not commit, and do not invent earlier history or other mistake classes.',
 }
 
 
@@ -59,8 +61,12 @@ def main():
             parser.error(f'Refusing to reuse an existing case directory: {project}')
         project.mkdir()
         installer.install(project, 'AGENTS.md')
-        for fixture in (ROOT / 'tests/fixtures/pi').glob('*.py'):
-            shutil.copy2(fixture, project / fixture.name)
+        if name not in ('benchmark', 'correct'):
+            for fixture in (ROOT / 'tests/fixtures/pi').glob('*.py'):
+                shutil.copy2(fixture, project / fixture.name)
+        for fixture in (ROOT / f'tests/fixtures/pi-{name}').glob('*'):
+            if fixture.is_file():
+                shutil.copy2(fixture, project / fixture.name)
         command = executable + ['--offline', '--no-extensions', '--no-skills', '--no-prompt-templates', '--no-themes', '--approve', '--session-dir', str(project / 'sessions'), '--mode', 'json', '--print']
         if name == 'interrogate':
             command += ['--skill', str(project / '.pstack/skills')]

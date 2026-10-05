@@ -28,15 +28,15 @@ One message, three delegation calls, a general-purpose role prompt, explicit `mo
 
 | Lens | `model` | Prompt template |
 |---|---|---|
-| Judgment | your configured reflect-judgment model (default `inherit-parent`) | `references/judgment-reviewer.md` |
-| Tooling | your configured reflect-tooling model (default `inherit-parent`) | `references/tooling-reviewer.md` |
-| Divergent | your configured reflect-judgment model (default `inherit-parent`) | `references/divergent-reviewer.md` |
+| Judgment | the `reflect judgment, divergent, synthesizer` role (default `inherit-parent`) | `references/judgment-reviewer.md` |
+| Tooling | the `reflect tooling` role (default `inherit-parent`) | `references/tooling-reviewer.md` |
+| Divergent | the `reflect judgment, divergent, synthesizer` role (default `inherit-parent`) | `references/divergent-reviewer.md` |
 
 Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in the delegation response body.
 
 ### 3. Synthesize
 
-One delegation call, a general-purpose role prompt, using your configured reflect-judgment model (default `inherit-parent`), read-only permissions including connector reads. The synthesizer's quality check includes spot-verifying citations, which can require MCP access. Use the host permission model; do not grant write access just to read connectors. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+One delegation call, a general-purpose role prompt, using the `reflect judgment, divergent, synthesizer` role (default `inherit-parent`), read-only permissions including connector reads. The synthesizer's quality check includes spot-verifying citations, which can require MCP access. Use the host permission model; do not grant write access just to read connectors. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 

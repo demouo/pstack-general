@@ -1,6 +1,6 @@
 ---
 name: poteto-agent
-description: Routing target for `/poteto-mode` and any request for poteto's style. Resume an existing `poteto-agent` for the conversation rather than spawning a sibling. Reads the `poteto-mode` skill's `SKILL.md` in full before any work, including its inline Principles index. Pass this role prompt explicitly when the host has no custom agent registration.
+description: Routing target for `/poteto-mode` and any request for poteto's style. Start a fresh scoped worker for new rounds unless costly live state requires reuse, as described in poteto-mode. Reads the `poteto-mode` skill's `SKILL.md` in full before any work, including its inline Principles index. Pass this role prompt explicitly when the host has no custom agent registration.
 ---
 
 # Poteto subagent

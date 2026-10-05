@@ -37,7 +37,7 @@ To stop automatic loading, remove the marked pstack block from the chosen instru
 
 ## Validation scope
 
-Tests cover repeat installation, entrypoint preservation, local-edit conflict handling, dry-run, symlink/path rejection, worktree paths with spaces, untracked-file preservation, skill identities and real relative reference targets. The upstream Bun suite exercises orchestration state and PR watcher policy with fixtures. These tests do not establish that a particular hosted session grants delegation, scheduler, secrets or app-control access.
+Tests cover repeat installation, entrypoint preservation, local-edit conflict handling, dry-run, symlink/path rejection, worktree paths with spaces, untracked-file preservation, skill identities and real relative reference targets. Helper regressions also cover append-only logging, cell sanitization, configured plan models and required live-lane receipts. The upstream Bun suite exercises orchestration state and PR watcher policy with fixtures. These tests do not establish that a particular hosted session grants delegation, scheduler, secrets or app-control access.
 
 Manual acceptance in any target harness:
 
@@ -47,4 +47,4 @@ Manual acceptance in any target harness:
 4. Request a long-running workflow without a scheduler and confirm it saves a handoff rather than claiming a future wake.
 5. Prepare Benny without a provider and confirm it stays dormant with unresolved integration requirements.
 
-The local pi run now exercises related file/native loading, review, TDD, history and scheduler scenarios. See [the pi validation report](validation/pi-2026-09-15.md) for real results and limits. Other target environments and the Benny integration scenario remain unverified.
+The local pi run exercises related file/native loading, review, TDD, history and scheduler scenarios. See [the initial pi validation report](validation/pi-2026-09-15.md) for real results and limits. The [October pi validation](validation/pi-2026-10-05.md) adds benchmark vetting and repeat-mistake correction. Other target environments and the Benny integration scenario remain unverified.

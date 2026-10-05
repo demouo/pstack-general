@@ -44,13 +44,17 @@ python3 scripts/install.py --target /absolute/path/to/project
 | 竞争方案 / 架构设计 | `arena` / `architect` |
 | 对抗评审 / 并行覆盖 | `interrogate` / `swarm` |
 | 测试驱动 / 影响分析 | `tdd` / `blast-radius` |
+| 性能测量审查 / 解释测量数值 | `benchmark-checklist` / `principle-explain-the-number` |
+| 消除代理反复犯的错误 | `correct` |
 | 技术写作 / 去冗余 | `technical-writing` / `unslop` / `deslop` |
 | 复盘 / 找回上下文 / 决策记录 | `reflect` / `recall` / `show-me-your-work` |
 | 创建或维护真实应用验证流程 | `create-verification-skill` / `maintain-verification-skill` |
 | 设置模型策略 | `setup-pstack` |
 | Slack 报告分诊和复现 | `automations/benny/FOR_AGENTS.md` |
 
-全部技能见 [技能目录](skills/)。模型配置可放在目标项目 `.pstack/models.md`；未配置时继承当前会话。配置由技能读取，不修改宿主模型设置。
+全部 53 个技能见 [技能目录](skills/)。模型配置可放在目标项目 `.pstack/models.md`；未配置时继承当前会话。配置由技能读取，不修改宿主模型设置。
+
+当前通用版 `v0.2.0` 选择性同步至上游 pstack `0.15.9`（2026-10-05）。新增性能证据审查和重复错误治理，更新架构、日志、验证及自主任务流程，继续保留通用能力降级。具体取舍见 [本次更新记录](docs/updates/2026-10-05.md)。更新已有项目时重新运行同一安装命令即可。
 
 ## 可选工具依赖
 
@@ -71,4 +75,4 @@ bun test orch watch-pr
 bun run typecheck
 ```
 
-迁移细节见 [PORTABILITY.md](docs/PORTABILITY.md)，源版本与 MIT 授权见 [UPSTREAM.md](UPSTREAM.md) 和 [LICENSE](LICENSE)。已在本机 pi 0.84.1 的真实模型会话中验证文件/原生技能加载、评审降级、TDD 修复、历史缺失和调度缺失五个场景，见 [pi 实测报告](docs/validation/pi-2026-09-15.md)。其他 harness 尚未逐一执行端到端验证。
+迁移细节见 [PORTABILITY.md](docs/PORTABILITY.md)，源版本与 MIT 授权见 [UPSTREAM.md](UPSTREAM.md) 和 [LICENSE](LICENSE)。已在本机 pi 0.84.1 的真实模型会话中验证文件/原生技能加载、评审降级、TDD 修复、历史缺失和调度缺失五个场景，见 [初版 pi 实测报告](docs/validation/pi-2026-09-15.md)。本次新增性能测量审查与重复错误治理两个实测场景，见 [10 月 pi 实测报告](docs/validation/pi-2026-10-05.md)。其他 harness 尚未逐一执行端到端验证。

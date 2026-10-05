@@ -25,7 +25,7 @@ Open a todolist with one entry per phase before launching anything.
 2. Choose the shape. Partition into slices, race N workers on identical briefs, or mix both. For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.
 3. Set N from the user or derive it from the shape. N is total workers, not the host concurrency limit.
 4. Pick the worker model from `swarm workers` in `.pstack/models.md` when present. Otherwise use `inherit-parent`. For a model race, name each arm's model up front.
-5. Give each worker its own writable output when it writes.
+5. Give each worker its own writable output when it writes. For commit verification or measurement, name the exact SHAs in the brief. A measurement brief also names the sample count, what one sample is, and the order. The worker records those identities and the method in its result.
 
 ## Phase B: Fan out
 
@@ -33,13 +33,13 @@ Spawn all N workers in one message with a general-purpose role prompt, an isolat
 
 When a worker needs a specific branch, use the host's documented checkout option or prepare an isolated Git worktree and give it the exact path and revision.
 
-Every brief stands alone. Include the goal, scope, exact slice or race arm, how to verify, and what to report. Reports use `PASS`, `ISSUES`, or `BLOCKED` with evidence.
+Every brief stands alone. Include the goal, scope, exact slice or race arm, how to verify, and what to report. Reports use `PASS`, `ISSUES`, or `BLOCKED` with evidence. A worker with a proven defect reports `ISSUES` and lists all proven issues, not only the first.
 
 If a worker drops out, proceed with N-1 and note it.
 
 ## Phase C: Aggregate
 
-Read the terminal results. For coverage, every required slice needs a result. For a race, apply the selection rule declared up front. Use first pass, rank all, or best-of. Do not paste raw worker dumps.
+Read the terminal results. Reject results that omit the SHAs or method required by the brief, and rerun that role once with consolidated scope. A second miss is a gap, never a pass. For coverage, every required slice needs a result. For a race, apply the selection rule declared up front. Use first pass, rank all, or best-of. Do not paste raw worker dumps.
 
 Keep a compact result table, one-line evidenced issues, and explicit gaps or dropouts.
 

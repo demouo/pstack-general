@@ -38,7 +38,7 @@ Resolve bundled files relative to the skill being read, never the shell working 
 
 Use project `.pstack/state/<run>/` for durable plans, checkpoints and orchestration state. Supply this path explicitly to helper scripts. Keep secrets and private transcripts out of version control. Only read transcript roots explicitly supplied for this workspace; do not derive paths from workspace slugs or scan other projects. Exports may be Markdown, text or JSONL: inspect the actual format rather than assuming a schema.
 
-A cloud worker is optional placement. Choose local or remote execution based on available tools, repository access and required runtime. Never assume children share files, inherit a worktree, survive a restart, or support nesting. Give each writer an isolated worktree or disjoint ownership. After restart, check live status before resuming or replacing workers. A scheduler must actually be registered before claiming future work will happen.
+A cloud worker is optional placement. Choose local or remote execution based on available tools, repository access and required runtime. Never assume children share files, inherit a worktree, survive a restart, or support nesting. Give each writer an isolated worktree or disjoint ownership. After restart, check live status before resuming or replacing workers. A scheduler must actually be registered before claiming future work will happen. For autonomous program audits, an hourly tick is a suggested cadence, not a built-in command or a guarantee of future turns. Unless the user requests periodic reports, notify only on a new tracked change; unchanged ticks may update the local trail without a message.
 
 ## External actions and proof
 
