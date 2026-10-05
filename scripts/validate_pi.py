@@ -14,13 +14,13 @@ installer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(installer)
 
 CASES = {
-    'how': 'Read .pstack/skills/how/SKILL.md and use that workflow to explain how checkout.py computes the total. Cite source lines. Do not edit files.',
+    'how': 'Read .agents/skills/how/SKILL.md and use that workflow to explain how checkout.py computes the total. Cite source lines. Do not edit files.',
     'interrogate': 'Use the interrogate skill to review checkout.py against its documented contract. Return the review verdict with evidence. Do not modify code.',
-    'tdd': 'Read .pstack/skills/tdd/SKILL.md and follow it to fix checkout.py so shipping follows the documented contract. Add focused regression tests and verify the fix. Limit edits to checkout.py and test_checkout.py.',
-    'recall': 'Read .pstack/skills/recall/SKILL.md. Recall the decision I made last week about this checkout module and its rationale. I have not supplied an earlier conversation or history export.',
-    'scheduler': 'Read .pstack/skills/poteto-mode/playbooks/autonomous-run.md and the pstack runtime contract. I need you to check whether approval.txt contains APPROVED every ten minutes and continue after this session ends until it does. Do not change approval.txt. Save enough state to resume this task.',
-    'benchmark': 'Read .pstack/skills/benchmark-checklist/SKILL.md and apply it to benchmark.py. Is the candidate faster for the actual export workload? Inspect and run the supplied benchmark as useful, but do not edit files or invent measurements. Explain work counts, errors, repeatability and any missing limiter evidence. Give a defensible verdict.',
-    'correct': 'Read .pstack/skills/correct/SKILL.md and apply it to the repeated mistake in corrections.md. Fix within the documented scope, add a meaningful regression check, demonstrate the current JSON rejection before the fix and show the test passes after it. Preserve corrections.md, do not commit, and do not invent earlier history or other mistake classes.',
+    'tdd': 'Read .agents/skills/tdd/SKILL.md and follow it to fix checkout.py so shipping follows the documented contract. Add focused regression tests and verify the fix. Limit edits to checkout.py and test_checkout.py.',
+    'recall': 'Read .agents/skills/recall/SKILL.md. Recall the decision I made last week about this checkout module and its rationale. I have not supplied an earlier conversation or history export.',
+    'scheduler': 'Read .agents/skills/poteto-mode/playbooks/autonomous-run.md and the pstack runtime contract. I need you to check whether approval.txt contains APPROVED every ten minutes and continue after this session ends until it does. Do not change approval.txt. Save enough state to resume this task.',
+    'benchmark': 'Read .agents/skills/benchmark-checklist/SKILL.md and apply it to benchmark.py. Is the candidate faster for the actual export workload? Inspect and run the supplied benchmark as useful, but do not edit files or invent measurements. Explain work counts, errors, repeatability and any missing limiter evidence. Give a defensible verdict.',
+    'correct': 'Read .agents/skills/correct/SKILL.md and apply it to the repeated mistake in corrections.md. Fix within the documented scope, add a meaningful regression check, demonstrate the current JSON rejection before the fix and show the test passes after it. Preserve corrections.md, do not commit, and do not invent earlier history or other mistake classes.',
 }
 
 
@@ -69,7 +69,7 @@ def main():
                 shutil.copy2(fixture, project / fixture.name)
         command = executable + ['--offline', '--no-extensions', '--no-skills', '--no-prompt-templates', '--no-themes', '--approve', '--session-dir', str(project / 'sessions'), '--mode', 'json', '--print']
         if name == 'interrogate':
-            command += ['--skill', str(project / '.pstack/skills')]
+            command += ['--skill', str(project / '.agents/skills')]
         if name in ('recall', 'scheduler'):
             command += ['--tools', 'read,write,grep,find,ls']
         command += [CASES[name]]

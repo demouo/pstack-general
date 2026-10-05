@@ -14,6 +14,8 @@
 
 **Control skill.** Pick it by surface. Browser, Electron, and web UIs use `control-ui` through the available application-control capability. CLIs and TUIs use `control-cli` through the available application-control capability. Native mobile uses whatever simulator-driving skill the repo has. A PR that touches two surfaces gets lanes on both. A surface with no control skill is a risk in Appendix C, and its live block still names how each lane drives it.
 
+Resolve `<skills-root>` to the actual installed skill directory, normally the project's `.agents/skills/`, and fill that path in the plan.
+
 ````markdown
 # <Program> plan
 
@@ -23,7 +25,7 @@
 
 One box is one unit of work. Every box names the evidence that checks it. A nested box is a sub-step of the box above it. Check a box only when its evidence exists, a file, a log line, a screenshot, a test run, or a SHA. The body is a how-to. The appendices explain and record.
 
-The program runs `<installed-bundle>/skills/poteto-mode/playbooks/<execution playbook>.md`. <Who merges, and which PR ids are the operator's items that stop at merge-ready.>
+The program runs `<skills-root>/poteto-mode/playbooks/<execution playbook>.md`. <Who merges, and which PR ids are the operator's items that stop at merge-ready.>
 
 Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.
 
@@ -58,7 +60,7 @@ Tests alone are not sufficient verification. A PR is verified only when its unit
 
 ### Verdict and merge, for every PR
 
-- [ ] At the code-ready head SHA and each later push that changes the patch, run the swarm per `<installed-bundle>/skills/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. Two or more audit lanes with distinct focus read the full brief, diff and receipts. Audit merge-ready receipts before the verdict.
+- [ ] At the code-ready head SHA and each later push that changes the patch, run the swarm per `<skills-root>/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. Two or more audit lanes with distinct focus read the full brief, diff and receipts. Audit merge-ready receipts before the verdict.
 - [ ] Clean only when every lane is `PASS`. Every proven finding goes back to the owner, including defects filed as notes. A new patch gets a fresh swarm and verdict, except applicable results retained under Shipping's patch-id/artifact-equivalence rule.
 - [ ] <The merge or append rule from the execution playbook, with the patch-id rule from `playbooks/shipping.md`.>
 
@@ -145,7 +147,7 @@ Each live lane runs in its own isolated worktree or supported remote environment
 
 ## Appendix D. Links and reading list
 
-<Docs to read before editing. Which PRs get `<installed-bundle>/skills/how/SKILL.md` and `<installed-bundle>/skills/interrogate/SKILL.md`. The trail per `<installed-bundle>/skills/show-me-your-work/SKILL.md`.>
+<Docs to read before editing. Which PRs get `<skills-root>/how/SKILL.md` and `<skills-root>/interrogate/SKILL.md`. The trail per `<skills-root>/show-me-your-work/SKILL.md`.>
 ````
 
 **Reply:** the plan path, the PR ids with their dependencies and the review-gated set, what the prototypes proved and what stays unproven, and the check script's output.

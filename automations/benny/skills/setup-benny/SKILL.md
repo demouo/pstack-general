@@ -9,7 +9,7 @@ Read the installed pstack-runtime skill. Benny is a dormant automation pack; cop
 
 ## 1. Install the pack and shared skills
 
-Install the portable pstack bundle in the target repository using `scripts/install.py --target <repository>`. It includes this pack at `.pstack/automations/benny/` and shared skills at `.pstack/skills/`. Confirm that the scheduler's checkout can read both directories and its configured instruction entrypoint. If updating, inspect conflicts and preserve local changes.
+Install the portable pstack bundle in the target repository using `scripts/install.py --target <repository>`. It includes this pack at `.pstack/automations/benny/` and shared skills at `.agents/skills/`. Confirm that the scheduler's checkout can read both directories and its configured instruction entrypoint. If updating, inspect conflicts and preserve local changes.
 
 Verify access to `how`, `why`, `tdd`, `unslop`, and the principle skills by explicit file path; native slash-skill discovery is optional. Keep user-owned configuration and maps outside the pack, for example `.pstack/benny/`. A remote runner needs the secret-free pack and configuration committed on its checkout branch before it can read them. Do not commit without authorization.
 
@@ -113,7 +113,7 @@ If any capability is missing, leave the repro automation disabled. It must fail 
 
 Read `../../FOR_AGENTS.md` and both templates under `../../templates/`. Bind their trigger and payload to the documented scheduler or event runner available in this environment. Verify its Slack event envelope, source coordinates, bot identity, repository checkout, secrets and concurrency behavior. A generic timer is not automatically a Slack event trigger.
 
-For each workflow, prepare a job specification with its name, trigger, source channel, repository/ref, exact operational skill path, configuration path, permissions, budgets, and expected output. Triage follows `.pstack/automations/benny/skills/triage-issue-reports/SKILL.md`; reproduction follows `.pstack/automations/benny/skills/reproduce-and-fix-issues/SKILL.md`. Each job must also read `.pstack/skills/pstack-runtime/SKILL.md`.
+For each workflow, prepare a job specification with its name, trigger, source channel, repository/ref, exact operational skill path, configuration path, permissions, budgets, and expected output. Triage follows `.pstack/automations/benny/skills/triage-issue-reports/SKILL.md`; reproduction follows `.pstack/automations/benny/skills/reproduce-and-fix-issues/SKILL.md`. Each job must also read `.agents/skills/pstack-runtime/SKILL.md`.
 
 Use the provider's supported create/update API or UI after user authorization. Inspect existing jobs before creating duplicates. Honor provider-required review steps. If no scheduler/event integration exists, leave the specifications as drafts and report that automated execution is unavailable. Do not invent endpoints or claim a running job.
 
@@ -123,7 +123,7 @@ Keep jobs disabled for normal traffic until the test below passes in a test chan
 
 Use a test channel or a harmless test report.
 
-Before testing, confirm that the portable `.pstack/skills/`, `.pstack/automations/benny/`, and every referenced secret-free configuration file are committed on the branch used by the automation checkout. Confirm that both live prompts point at their exact committed operational files. If any check fails, stop. Tell the user that the automation cannot be enabled yet.
+Before testing, confirm that the portable `.agents/skills/`, `.pstack/automations/benny/`, and every referenced secret-free configuration file are committed on the branch used by the automation checkout. Confirm that both live prompts point at their exact committed operational files. If any check fails, stop. Tell the user that the automation cannot be enabled yet.
 
 Verify:
 

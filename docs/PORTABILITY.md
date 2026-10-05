@@ -4,7 +4,7 @@
 
 1. `skills/` holds the portable workflow instructions. Every entry reads `pstack-runtime` before execution. Read sibling skills explicitly when native discovery is absent.
 2. `pstack-runtime` maps workflow roles to actual session capabilities. It is an instruction contract, not an executable provider SDK or a new agent runtime.
-3. The installer copies a self-contained bundle to `.pstack/` and optionally adds a managed instruction block to a user-selected file. It never assumes that a harness supports native skill discovery at that location.
+3. The installer copies skills directly to `.agents/skills/<skill-name>/`, the shared discovery convention, and optionally adds a managed instruction block to a user-selected file. `.pstack/` holds the manifest, license, provenance, optional automations, user model policy and run state. Native discovery depends on the host; explicit file loading remains available.
 4. Shell/Node/Bun helpers remain optional and run through the available shell. Connector and scheduler implementations belong to the host or user's configured provider.
 
 ## Removed assumptions
@@ -31,9 +31,11 @@ The GitHub watcher still recognizes review-bot metadata from upstream, including
 
 `python3 scripts/install.py --target <project> [--entrypoint <filename>] [--dry-run]`
 
-The install manifest records hashes of managed files. Unchanged managed files can update; modified managed files cause a conflict before writes. Removed source-managed files can be removed only when their installed hash still matches the manifest. User-only files remain. Inspect and merge a conflict manually; there is no force-overwrite switch. Installation does not commit, push, activate automations or change the host's global settings. The installer preflights conflicts but does not promise crash-atomic updates across the entire directory.
+The v2 install manifest records project-relative paths and hashes of managed files under `.agents/skills/` and `.pstack/`. Unchanged managed files can update; modified managed files and conflicting same-name skills cause a conflict before writes. Removed source-managed files can be removed only when their installed hash still matches the manifest. User-only files remain. Inspect and merge a conflict manually; there is no force-overwrite switch. Installation does not commit, push, activate automations or change the host's global settings. The installer preflights conflicts but does not promise crash-atomic updates across the entire directory.
 
-To stop automatic loading, remove the marked pstack block from the chosen instruction file. Before removing `.pstack/`, preserve any user configuration or state stored inside it. No uninstall command deletes user state automatically.
+The installer also accepts the v1 manifest. A refresh moves unchanged managed skills from `.pstack/skills/` to `.agents/skills/`, removes only retired managed files and empty directories, and leaves unmanaged legacy files in place. Existing pstack blocks in regular `AGENTS.md`, `CLAUDE.md` and `GEMINI.md` files update automatically. Other entrypoints require their original `--entrypoint` filename. A conflict in either the legacy file or its new destination blocks all writes.
+
+To stop instruction-based loading, remove the marked pstack block from the chosen instruction file. Hosts that discover `.agents/skills/` also need their skill bindings disabled or the specific pstack skill folders removed. Do not remove the shared `.agents/skills/` root or other installed skills. Before removing pstack files, preserve user modifications, configuration and run state. No uninstall command deletes user state automatically.
 
 ## Validation scope
 

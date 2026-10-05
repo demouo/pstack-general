@@ -34,7 +34,7 @@ Role names describe prompts, not registered agent types. Read [poteto-agent](ref
 
 ## Paths and lifecycle
 
-Resolve bundled files relative to the skill being read, never the shell working directory. Invoke scripts by their resolved absolute path. New project skills default to `.agents/skills/`; if the host cannot discover that directory, load them by explicit file path or use the user's configured skills root. No global plugin installation is required.
+Bundled and new project skills default to `.agents/skills/<skill-name>/`. Keep model policy, run state and optional automation packs under `.pstack/`; that directory is not the default skill discovery root. Resolve bundled files relative to the skill being read, never the shell working directory. Invoke scripts by their resolved absolute path. If the host cannot discover `.agents/skills/`, load skills by explicit file path or use the user's configured skills root. No global plugin installation is required.
 
 Use project `.pstack/state/<run>/` for durable plans, checkpoints and orchestration state. Supply this path explicitly to helper scripts. Keep secrets and private transcripts out of version control. Only read transcript roots explicitly supplied for this workspace; do not derive paths from workspace slugs or scan other projects. Exports may be Markdown, text or JSONL: inspect the actual format rather than assuming a schema.
 
