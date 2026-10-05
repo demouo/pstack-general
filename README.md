@@ -1,81 +1,83 @@
-# pstack · 通用 harness 版
+# pstack · Portable harness edition
 
-将 [Cursor pstack](https://github.com/cursor/plugins/tree/main/pstack) 的工程工作流移植为普通 Markdown 技能包。保留代码理解、设计评审、实现、验证、PR 监控、长任务恢复和原则技能，去掉 Cursor 插件安装、私有路径、专属模型 ID 和工具参数依赖。
+**English** | [简体中文](README.zh-CN.md)
 
-**基础要求：harness 能读取文件并遵循指令。** 执行代码需要 shell；多代理、跨模型、浏览器、历史记录和自动调度均按当前会话实际能力启用。没有多代理时可串行执行角色；不会把串行自审声称为独立评审。
+A plain Markdown skill bundle adapted from [Cursor pstack](https://github.com/cursor/plugins/tree/main/pstack) for coding agent runtimes (harnesses). It covers code exploration, design review, implementation, verification, PR monitoring, long-task recovery and engineering principles, with portable replacements for Cursor plugin installation, private paths, model IDs and tool parameters.
 
-## 快速开始
+**Minimum requirement: your harness can read files and follow instructions.** Running code requires a shell. Delegation, multiple models, browsers, history and scheduling depend on the capabilities available in the current session. Without delegation, roles can run sequentially; reviews by the same agent do not count as independent reviews.
 
-### 一句话安装
+## Quick start
 
-把下面这句话复制给你正在使用的 harness：
+### One-sentence installation
+
+Copy this sentence into your harness:
 
 ```text
-请从 https://github.com/demouo/pstack-general 获取最新版 pstack，按仓库 README 将它安装到当前项目并接入当前 harness，保留现有指令和用户配置，完成后验证技能可以加载。
+Get the latest pstack from https://github.com/demouo/pstack-general, follow its README to install it in the current project and connect it to this harness, preserve existing instructions and user configuration, and verify that the skills can be loaded.
 ```
 
-### 手动安装
+### Manual installation
 
-安装器只需要 Python 3.9+。克隆本仓库或解压 Release 压缩包后运行：
+The installer requires only Python 3.9+. Clone this repository or extract a Release archive, then run:
 
 ```sh
 python3 scripts/install.py --target /absolute/path/to/project --entrypoint AGENTS.md
 ```
 
-安装到目标项目的 `.pstack/`，并在指定指令文件追加一个带标记的入口块。保留原有指令、用户配置和非托管文件；重复运行可更新。若源文件与本地修改冲突，整次更新在写入前停止，先检查合并再重试。预览使用 `--dry-run`。
+This installs the bundle into the target project's `.pstack/` and adds a marked entry block to the chosen instruction file. It preserves existing instructions, user configuration and unmanaged files. Rerun the command to update. If an update conflicts with local edits, it stops before writing; inspect and merge the changes before retrying. Use `--dry-run` to preview.
 
-如果已有指令文件，选择该 harness 实际读取的文件；无需使用默认路径猜测其技能发现机制：
+Choose the instruction file your harness actually reads:
 
 ```sh
-# 使用 CLAUDE.md 的环境
+# For environments that read CLAUDE.md
 python3 scripts/install.py --target /absolute/path/to/project --entrypoint CLAUDE.md
 
-# 使用 GEMINI.md 的环境
+# For environments that read GEMINI.md
 python3 scripts/install.py --target /absolute/path/to/project --entrypoint GEMINI.md
 
-# 无自动指令加载的环境：仅安装，然后在对话中指定文件
+# Without automatic instruction loading: install, then name the file in your prompt
 python3 scripts/install.py --target /absolute/path/to/project
 ```
 
-在 Codex、Claude Code、Gemini CLI、OpenCode、Cursor 或其他 harness 中，最通用的调用方式是：
+In Codex, Claude Code, Gemini CLI, OpenCode, Cursor or another harness, the most portable way to invoke a skill is by its installed file path:
 
-> 读取 `.pstack/skills/how/SKILL.md`，按其中流程解释这个仓库的认证模块。
+> Read `.pstack/skills/how/SKILL.md` and follow its workflow to explain this repository's authentication module.
 
-> 读取 `.pstack/skills/poteto-mode/SKILL.md`，使用完整 pstack 工作流完成这个功能。
+> Read `.pstack/skills/poteto-mode/SKILL.md` and use the full pstack workflow to implement this feature.
 
-这是**文件指令接入**，不是对各厂商原生插件、斜杠命令或全部运行能力的兼容承诺。若入口文件未被自动加载，在会话中直接指明上述路径。安装不更改全局配置，也不注册后台任务。
+This is **file-based instruction loading**. Native plugins, slash commands and runtime capabilities vary by harness. If the entrypoint is not loaded automatically, name the paths above in your session. Installation does not change global configuration or register background tasks.
 
-## 常用工作流
+## Common workflows
 
-| 任务 | 技能 |
+| Task | Skill |
 | --- | --- |
-| 完整工程流程、playbook 路由 | `poteto-mode` |
-| 理解实现 / 追查设计原因 | `how` / `why` |
-| 竞争方案 / 架构设计 | `arena` / `architect` |
-| 对抗评审 / 并行覆盖 | `interrogate` / `swarm` |
-| 测试驱动 / 影响分析 | `tdd` / `blast-radius` |
-| 性能测量审查 / 解释测量数值 | `benchmark-checklist` / `principle-explain-the-number` |
-| 消除代理反复犯的错误 | `correct` |
-| 技术写作 / 去冗余 | `technical-writing` / `unslop` / `deslop` |
-| 复盘 / 找回上下文 / 决策记录 | `reflect` / `recall` / `show-me-your-work` |
-| 创建或维护真实应用验证流程 | `create-verification-skill` / `maintain-verification-skill` |
-| 设置模型策略 | `setup-pstack` |
-| Slack 报告分诊和复现 | `automations/benny/FOR_AGENTS.md` |
+| Full engineering workflow and playbook routing | `poteto-mode` |
+| Understand an implementation / trace design decisions | `how` / `why` |
+| Compare alternatives / design architecture | `arena` / `architect` |
+| Adversarial review / parallel coverage | `interrogate` / `swarm` |
+| Test-driven development / impact analysis | `tdd` / `blast-radius` |
+| Vet performance measurements / explain measured numbers | `benchmark-checklist` / `principle-explain-the-number` |
+| Prevent recurring agent mistakes | `correct` |
+| Technical writing / remove redundancy | `technical-writing` / `unslop` / `deslop` |
+| Reflect / recover context / record decisions | `reflect` / `recall` / `show-me-your-work` |
+| Create or maintain real application verification workflows | `create-verification-skill` / `maintain-verification-skill` |
+| Configure model policy | `setup-pstack` |
+| Triage and reproduce Slack reports | `automations/benny/FOR_AGENTS.md` |
 
-全部 53 个技能见 [技能目录](skills/)。模型配置可放在目标项目 `.pstack/models.md`；未配置时继承当前会话。配置由技能读取，不修改宿主模型设置。
+Browse all 53 skills in the [skill directory](skills/). Put optional model policy in the target project's `.pstack/models.md`; missing configuration inherits the current session's model. Skills read this policy without changing the host's model settings.
 
-当前通用版 `v0.2.0` 选择性同步至上游 pstack `0.15.9`（2026-10-05）。新增性能证据审查和重复错误治理，更新架构、日志、验证及自主任务流程，继续保留通用能力降级。具体取舍见 [本次更新记录](docs/updates/2026-10-05.md)。更新已有项目时重新运行同一安装命令即可。
+The current portable release, `v0.2.0`, selectively syncs upstream pstack `0.15.9` (2026-10-05). It adds performance evidence checks and recurring mistake prevention, and updates architecture, logging, verification and autonomous workflows while keeping capability fallbacks. See the [update record](docs/updates/2026-10-05.md) for the adaptation choices. To update an existing project, rerun the same installation command.
 
-## 可选工具依赖
+## Optional tool dependencies
 
-- `worktree-audit.sh`：Python 3.9+、Git；纯本地读取，无需聊天记录。
-- `check-plan.mjs`：Node.js；检查多 PR 计划格式。
-- `scripts/orch/orch.ts`：Bun；显式指定 `--store`。`frontier set` 仍需 Graphite `gt` 的栈元数据，其余状态操作不需要。它管理状态，不负责启动或唤醒代理。
-- `scripts/watch-pr/watch-pr`：Bun、GitHub CLI `gh` 和相应仓库权限。只支持 GitHub。
-- Bun 工具首次运行会按锁文件安装依赖。它们不是读取技能的前提。
-- Benny 和 webhook UI：需要用户选定的事件运行器、连接器和密钥配置；未配置时产出草稿，不会实际运行。
+- `worktree-audit.sh`: Python 3.9+ and Git; reads local state without needing chat history.
+- `check-plan.mjs`: Node.js; checks multi-PR plan formatting.
+- `scripts/orch/orch.ts`: Bun; pass `--store` explicitly. `frontier set` also requires Graphite `gt` stack metadata; other state operations do not. It manages state, rather than starting or waking agents.
+- `scripts/watch-pr/watch-pr`: Bun, GitHub CLI `gh` and repository permissions. Supports GitHub only.
+- Bun tools install dependencies from the lockfile on first use. They are optional for reading skills.
+- Benny and the webhook UI require a user-selected event runner, connectors and secret configuration. Without those bindings, they produce drafts rather than running integrations.
 
-## 验证
+## Validation
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -85,4 +87,4 @@ bun test orch watch-pr
 bun run typecheck
 ```
 
-迁移细节见 [PORTABILITY.md](docs/PORTABILITY.md)，源版本与 MIT 授权见 [UPSTREAM.md](UPSTREAM.md) 和 [LICENSE](LICENSE)。已在本机 pi 0.84.1 的真实模型会话中验证文件/原生技能加载、评审降级、TDD 修复、历史缺失和调度缺失五个场景，见 [初版 pi 实测报告](docs/validation/pi-2026-09-15.md)。本次新增性能测量审查与重复错误治理两个实测场景，见 [10 月 pi 实测报告](docs/validation/pi-2026-10-05.md)。其他 harness 尚未逐一执行端到端验证。
+See [PORTABILITY.md](docs/PORTABILITY.md) for migration details, and [UPSTREAM.md](UPSTREAM.md) and [LICENSE](LICENSE) for source provenance and the MIT license. Real local pi 0.84.1 sessions verified five initial scenarios: file/native skill loading, review fallback, a TDD fix, missing history and missing scheduling. See the [initial pi report](docs/validation/pi-2026-09-15.md). Two additional scenarios cover benchmark vetting and recurring mistake prevention; see the [October pi report](docs/validation/pi-2026-10-05.md). The update record and pi reports are in Chinese. Other harnesses have not each been tested end to end.
